@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bluetooth MIDI Web App</title>
+</head>
+<body>
+  <h1>Bluetooth MIDI Controller</h1>
+  <button id="midiButton">Send MIDI Signal</button>
+
+  <script>
+    document.getElementById('midiButton').addEventListener('click', async () => {
+      try {
+        // Request a Bluetooth device with MIDI services
+        const device = await navigator.bluetooth.requestDevice({
+          filters: [{ services: ['midi'] }]
+        });
+        
+        // Connect to the device's GATT server
+        const server = await device.gatt.connect();
+        console.log("Connected to MIDI device!");
+        
+        // Here you would interact with the MIDI service, for example:
+        // - Sending data to trigger a MIDI note
+        // - Receiving data from the MIDI device
+
+        // Example: sending a simple message
+        // Note: This is a placeholder since the actual implementation will depend
+        // on your specific MIDI device and service characteristics.
+        // You could send MIDI signals using Web MIDI or manipulate the GATT service directly.
+
+      } catch (error) {
+        console.error("Bluetooth connection failed: ", error);
+      }
+    });
+  </script>
+</body>
+</html>

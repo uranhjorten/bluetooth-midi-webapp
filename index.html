@@ -19,8 +19,14 @@
     </style>
 </head>
 <body>
-    <div>Version 1.6 - Disabled text selection when holding the RFID button to improve mobile usability.</div>
+    <div>Version 1.7 - Added video selection feature allowing users to choose which video to play.</div>
     <button onclick="toggleBackgroundColor()">Toggle Background Color</button>
+    <label for="video-selection">Choose a video:</label>
+    <select id="video-selection">
+        <option value="https://www.youtube.com/embed/dQw4w9WgXcQ">Video 1</option>
+        <option value="https://www.youtube.com/embed/3JZ_D3ELwOQ">Video 2</option>
+        <option value="https://www.youtube.com/embed/tgbNymZ7vqY">Video 3</option>
+    </select>
     <button onmousedown="startVideo()" onmouseup="hideVideo()" ontouchstart="startVideo()" ontouchend="hideVideo()">RFID</button>
     
     <div id="video-container" style="margin-top: 20px;">
@@ -36,6 +42,8 @@
 
         function startVideo() {
             const videoIframe = document.getElementById("youtube-video");
+            const selectedVideoUrl = document.getElementById("video-selection").value;
+            videoIframe.src = `${selectedVideoUrl}?enablejsapi=1&modestbranding=1&controls=0&showinfo=0`;
             videoIframe.style.display = "block";
             videoIframe.contentWindow.postMessage('{"event":"command","func":"seekTo","args":[0, true]}', '*');
             videoIframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');

@@ -19,7 +19,7 @@
     </style>
 </head>
 <body>
-    <div>Version 1.8 - Modified video playback to autoplay and start immediately when selected.</div>
+    <div>Version 1.9 - Added keyboard shortcuts to play videos: hold 1 for Video 1, press 2 for Video 2, etc.</div>
     <button onclick="toggleBackgroundColor()">Toggle Background Color</button>
     <label for="video-selection">Choose a video:</label>
     <select id="video-selection">
@@ -28,6 +28,7 @@
         <option value="https://www.youtube.com/embed/tgbNymZ7vqY">Video 3</option>
     </select>
     <button onmousedown="startVideo()" onmouseup="hideVideo()" ontouchstart="startVideo()" ontouchend="hideVideo()">RFID</button>
+    <p>Tip: You can hold the '1' key on your keyboard to play Video 1, press '2' for Video 2, and so on.</p>
     
     <div id="video-container" style="margin-top: 20px;">
         <iframe id="youtube-video" width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ?enablejsapi=1&modestbranding=1&controls=0&showinfo=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="display: none;"></iframe>
@@ -57,6 +58,19 @@
             videoIframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
             videoIframe.style.display = "none";
         }
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === '1') {
+                document.getElementById("video-selection").value = "https://www.youtube.com/embed/dQw4w9WgXcQ";
+                startVideo();
+            } else if (event.key === '2') {
+                document.getElementById("video-selection").value = "https://www.youtube.com/embed/3JZ_D3ELwOQ";
+                startVideo();
+            } else if (event.key === '3') {
+                document.getElementById("video-selection").value = "https://www.youtube.com/embed/tgbNymZ7vqY";
+                startVideo();
+            }
+        });
     </script>
 </body>
 </html>

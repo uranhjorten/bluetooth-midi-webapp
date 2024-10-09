@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Change Background Color</title>
+    <title>Toggle Background Color and Play/Pause YouTube Video</title>
     <style>
         body {
             transition: background-color 0.5s ease;
@@ -17,12 +17,12 @@
     </style>
 </head>
 <body>
-    <div>Version 1.3 - Modified RFID button behavior to keep the video visible when paused.</div>
+    <div>Version 1.4 - Modified RFID button to play from the beginning on hold, and hide video on release.</div>
     <button onclick="toggleBackgroundColor()">Toggle Background Color</button>
-    <button onclick="toggleVideo()">RFID</button>
+    <button onmousedown="startVideo()" onmouseup="hideVideo()">RFID</button>
     
     <div id="video-container" style="margin-top: 20px;">
-        <iframe id="youtube-video" width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ?enablejsapi=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="display: block;"></iframe>
+        <iframe id="youtube-video" width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ?enablejsapi=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="display: none;"></iframe>
     </div>
 
     <script>
@@ -32,15 +32,65 @@
             isRed = !isRed;
         }
 
-        let videoPlaying = false;
-        function toggleVideo() {
+        function startVideo() {
             const videoIframe = document.getElementById("youtube-video");
-            if (videoPlaying) {
-                videoIframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
-            } else {
-                videoIframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-            }
-            videoPlaying = !videoPlaying;
+            videoIframe.style.display = "block";
+            videoIframe.contentWindow.postMessage('{"event":"command","func":"seekTo","args":[0, true]}', '*');
+            videoIframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+        }
+
+        function hideVideo() {
+            const videoIframe = document.getElementById("youtube-video");
+            videoIframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+            videoIframe.style.display = "none";
+        }
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toggle Background Color and Play/Pause YouTube Video</title>
+    <style>
+        body {
+            transition: background-color 0.5s ease;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div>Version 1.4 - Modified RFID button to play from the beginning on hold, and hide video on release.</div>
+    <button onclick="toggleBackgroundColor()">Toggle Background Color</button>
+    <button onmousedown="startVideo()" onmouseup="hideVideo()">RFID</button>
+    
+    <div id="video-container" style="margin-top: 20px;">
+        <iframe id="youtube-video" width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ?enablejsapi=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="display: none;"></iframe>
+    </div>
+
+    <script>
+        let isRed = true;
+        function toggleBackgroundColor() {
+            document.body.style.backgroundColor = isRed ? "blue" : "red";
+            isRed = !isRed;
+        }
+
+        function startVideo() {
+            const videoIframe = document.getElementById("youtube-video");
+            videoIframe.style.display = "block";
+            videoIframe.contentWindow.postMessage('{"event":"command","func":"seekTo","args":[0, true]}', '*');
+            videoIframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+        }
+
+        function hideVideo() {
+            const videoIframe = document.getElementById("youtube-video");
+            videoIframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+            videoIframe.style.display = "none";
         }
     </script>
 </body>

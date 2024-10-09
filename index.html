@@ -17,12 +17,12 @@
     </style>
 </head>
 <body>
-    <div>Version 1.2 - Added RFID button to play/pause a YouTube video.</div>
+    <div>Version 1.3 - Modified RFID button behavior to keep the video visible when paused.</div>
     <button onclick="toggleBackgroundColor()">Toggle Background Color</button>
     <button onclick="toggleVideo()">RFID</button>
     
     <div id="video-container" style="margin-top: 20px;">
-        <iframe id="youtube-video" width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ?enablejsapi=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="display: none;"></iframe>
+        <iframe id="youtube-video" width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ?enablejsapi=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="display: block;"></iframe>
     </div>
 
     <script>
@@ -32,17 +32,15 @@
             isRed = !isRed;
         }
 
-        let videoVisible = false;
+        let videoPlaying = false;
         function toggleVideo() {
             const videoIframe = document.getElementById("youtube-video");
-            if (videoVisible) {
+            if (videoPlaying) {
                 videoIframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
-                videoIframe.style.display = "none";
             } else {
-                videoIframe.style.display = "block";
                 videoIframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
             }
-            videoVisible = !videoVisible;
+            videoPlaying = !videoPlaying;
         }
     </script>
 </body>

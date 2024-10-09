@@ -1,39 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bluetooth MIDI Web App</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change Background Color</title>
+    <style>
+        body {
+            transition: background-color 0.5s ease;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-  <h1>Bluetooth MIDI Controller</h1>
-  <button id="midiButton">Send MIDI Signal</button>
+    <button onclick="changeBackgroundColor()">Change Background Color to Red</button>
 
-  <script>
-    document.getElementById('midiButton').addEventListener('click', async () => {
-      try {
-        // Request a Bluetooth device with MIDI services
-        const device = await navigator.bluetooth.requestDevice({
-          filters: [{ services: ['midi'] }]
-        });
-        
-        // Connect to the device's GATT server
-        const server = await device.gatt.connect();
-        console.log("Connected to MIDI device!");
-        
-        // Here you would interact with the MIDI service, for example:
-        // - Sending data to trigger a MIDI note
-        // - Receiving data from the MIDI device
-
-        // Example: sending a simple message
-        // Note: This is a placeholder since the actual implementation will depend
-        // on your specific MIDI device and service characteristics.
-        // You could send MIDI signals using Web MIDI or manipulate the GATT service directly.
-
-      } catch (error) {
-        console.error("Bluetooth connection failed: ", error);
-      }
-    });
-  </script>
+    <script>
+        function changeBackgroundColor() {
+            document.body.style.backgroundColor = "red";
+        }
+    </script>
 </body>
 </html>

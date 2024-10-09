@@ -13,11 +13,13 @@
             font-size: 16px;
             cursor: pointer;
             margin: 10px;
+            user-select: none;
+            -webkit-user-select: none;
         }
     </style>
 </head>
 <body>
-    <div>Version 1.5 - Modified RFID button to work on mobile devices by using touch events instead of mouse events.</div>
+    <div>Version 1.6 - Disabled text selection when holding the RFID button to improve mobile usability.</div>
     <button onclick="toggleBackgroundColor()">Toggle Background Color</button>
     <button onmousedown="startVideo()" onmouseup="hideVideo()" ontouchstart="startVideo()" ontouchend="hideVideo()">RFID</button>
     

@@ -12,18 +12,37 @@
             padding: 10px 20px;
             font-size: 16px;
             cursor: pointer;
+            margin: 10px;
         }
     </style>
 </head>
 <body>
-    <div>Version 1.1 - Added toggle functionality to switch background color between red and blue.</div>
+    <div>Version 1.2 - Added RFID button to play/pause a YouTube video.</div>
     <button onclick="toggleBackgroundColor()">Toggle Background Color</button>
+    <button onclick="toggleVideo()">RFID</button>
+    
+    <div id="video-container" style="margin-top: 20px;">
+        <iframe id="youtube-video" width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ?enablejsapi=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="display: none;"></iframe>
+    </div>
 
     <script>
         let isRed = true;
         function toggleBackgroundColor() {
             document.body.style.backgroundColor = isRed ? "blue" : "red";
             isRed = !isRed;
+        }
+
+        let videoVisible = false;
+        function toggleVideo() {
+            const videoIframe = document.getElementById("youtube-video");
+            if (videoVisible) {
+                videoIframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+                videoIframe.style.display = "none";
+            } else {
+                videoIframe.style.display = "block";
+                videoIframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+            }
+            videoVisible = !videoVisible;
         }
     </script>
 </body>

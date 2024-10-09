@@ -16,11 +16,13 @@
     </style>
 </head>
 <body>
-    <button onclick="changeBackgroundColor()">Change Background Color to Red</button>
+    <button onclick="toggleBackgroundColor()">Toggle Background Color</button>
 
     <script>
-        function changeBackgroundColor() {
-            document.body.style.backgroundColor = "red";
+        let isRed = true;
+        function toggleBackgroundColor() {
+            document.body.style.backgroundColor = isRed ? "blue" : "red";
+            isRed = !isRed;
         }
     </script>
 </body>

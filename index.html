@@ -17,9 +17,9 @@
     </style>
 </head>
 <body>
-    <div>Version 1.4 - Modified RFID button to play from the beginning on hold, and hide video on release.</div>
+    <div>Version 1.5 - Modified RFID button to work on mobile devices by using touch events instead of mouse events.</div>
     <button onclick="toggleBackgroundColor()">Toggle Background Color</button>
-    <button onmousedown="startVideo()" onmouseup="hideVideo()">RFID</button>
+    <button onmousedown="startVideo()" onmouseup="hideVideo()" ontouchstart="startVideo()" ontouchend="hideVideo()">RFID</button>
     
     <div id="video-container" style="margin-top: 20px;">
         <iframe id="youtube-video" width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ?enablejsapi=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="display: none;"></iframe>

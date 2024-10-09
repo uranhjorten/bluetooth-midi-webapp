@@ -19,7 +19,7 @@
     </style>
 </head>
 <body>
-    <div>Version 1.7 - Added video selection feature allowing users to choose which video to play.</div>
+    <div>Version 1.8 - Modified video playback to autoplay and start immediately when selected.</div>
     <button onclick="toggleBackgroundColor()">Toggle Background Color</button>
     <label for="video-selection">Choose a video:</label>
     <select id="video-selection">
@@ -43,10 +43,13 @@
         function startVideo() {
             const videoIframe = document.getElementById("youtube-video");
             const selectedVideoUrl = document.getElementById("video-selection").value;
-            videoIframe.src = `${selectedVideoUrl}?enablejsapi=1&modestbranding=1&controls=0&showinfo=0`;
+            videoIframe.src = `${selectedVideoUrl}?enablejsapi=1&modestbranding=1&controls=0&showinfo=0&autoplay=1`;
             videoIframe.style.display = "block";
-            videoIframe.contentWindow.postMessage('{"event":"command","func":"seekTo","args":[0, true]}', '*');
-            videoIframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+
+            // Post message to play after loading
+            videoIframe.onload = () => {
+                videoIframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+            };
         }
 
         function hideVideo() {

@@ -19,7 +19,7 @@
     </style>
 </head>
 <body>
-    <div>Version 2.0 - Improved keyboard shortcuts to reliably play videos with autoplay and postMessage.</div>
+    <div>Version 2.1 - Fixed keyboard shortcuts to reliably control video playback using YouTube API commands.</div>
     <button onclick="toggleBackgroundColor()">Toggle Background Color</button>
     <label for="video-selection">Choose a video:</label>
     <select id="video-selection">
@@ -44,7 +44,6 @@
         function startVideo() {
             const videoIframe = document.getElementById("youtube-video");
             videoIframe.style.display = "block";
-
             // Post message to play after loading
             videoIframe.contentWindow.postMessage('{"event":"command","func":"seekTo","args":[0, true]}', '*');
             videoIframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
@@ -56,20 +55,25 @@
             videoIframe.style.display = "none";
         }
 
-        document.addEventListener('keydown', (event) => {
+        function changeVideo(videoUrl) {
             const videoIframe = document.getElementById("youtube-video");
+            videoIframe.src = `${videoUrl}?enablejsapi=1&modestbranding=1&controls=0&showinfo=0`;
+            videoIframe.onload = () => {
+                videoIframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+            };
+            videoIframe.style.display = "block";
+        }
+
+        document.addEventListener('keydown', (event) => {
             if (event.key === '1') {
                 document.getElementById("video-selection").value = "https://www.youtube.com/embed/dQw4w9WgXcQ";
-                videoIframe.src = "https://www.youtube.com/embed/dQw4w9WgXcQ?enablejsapi=1&modestbranding=1&controls=0&showinfo=0&autoplay=1";
-                startVideo();
+                changeVideo("https://www.youtube.com/embed/dQw4w9WgXcQ");
             } else if (event.key === '2') {
                 document.getElementById("video-selection").value = "https://www.youtube.com/embed/3JZ_D3ELwOQ";
-                videoIframe.src = "https://www.youtube.com/embed/3JZ_D3ELwOQ?enablejsapi=1&modestbranding=1&controls=0&showinfo=0&autoplay=1";
-                startVideo();
+                changeVideo("https://www.youtube.com/embed/3JZ_D3ELwOQ");
             } else if (event.key === '3') {
                 document.getElementById("video-selection").value = "https://www.youtube.com/embed/tgbNymZ7vqY";
-                videoIframe.src = "https://www.youtube.com/embed/tgbNymZ7vqY?enablejsapi=1&modestbranding=1&controls=0&showinfo=0&autoplay=1";
-                startVideo();
+                changeVideo("https://www.youtube.com/embed/tgbNymZ7vqY");
             }
         });
     </script>
